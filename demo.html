@@ -1,0 +1,540 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}[hidden]{display:none!important}</style></head><body>
+<title>Dyslective</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: the product screens from the business plan, made clickable. Web app (navy sidebar + cards) for teacher and parent, phone for the student, presenter bar docked at the bottom. Single light look on purpose, to match the printed figures. */
+:root{
+  color-scheme:light;
+  --navy:#034774; --navy-2:#02385c; --sky:#6faedd; --blue:#3a86c4; --soft:#e6f3ff;
+  --bg:#f3f7fb; --card:#ffffff; --line:#e7eef5; --ink:#0b2a44; --mut:#7a8b9c; --ink2:#33517a;
+  --red:#c2382b; --red-bg:#fde8e6; --redbar:#e0574a; --yel:#b7700f; --yel-bg:#fff3dc; --yelbar:#e9a23b; --grn:#1f8a4c; --grn-bg:#e3f6ea; --grnbar:#2fa760; --orange:#f0883e;
+  --sh:0 1px 3px rgba(11,42,68,.08),0 4px 12px rgba(11,42,68,.05);
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))}
+p,h1,h2,h3{margin:0} button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy-2)}
+
+/* ---------- web app shell (teacher + parent) ---------- */
+.shell{display:grid;grid-template-columns:232px 1fr;min-height:calc(100vh - 72px)}
+.side{background:linear-gradient(180deg,#034774,#02385c);color:#fff;padding:20px 14px;display:flex;flex-direction:column;position:sticky;top:env(safe-area-inset-top,0px);height:calc(100vh - 72px);padding-left:max(14px,env(safe-area-inset-left,0px))}
+.logo{display:flex;align-items:center;gap:10px;font-size:21px;font-weight:800;letter-spacing:-.3px;margin:0 6px 24px}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--sky);display:block}
+.nav{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:#a9d3f2;font-weight:600;font-size:14.5px;margin-bottom:4px;background:none;border:0;width:100%;text-align:left}
+.nav:hover{background:rgba(255,255,255,.07)}
+.nav[aria-pressed="true"]{background:rgba(255,255,255,.16);color:#fff}
+.nav svg{flex:none}
+.me{margin-top:auto;display:flex;align-items:center;gap:10px;padding:14px 6px 0;border-top:1px solid rgba(255,255,255,.15)}
+.me .dot{width:34px;height:34px;border-radius:50%;background:var(--sky);color:#03243c;font-size:13px;font-weight:800;display:grid;place-items:center}
+.me b{display:block;font-size:13.5px}.me span{font-size:12px;color:#a9d3f2}
+.main{min-width:0;padding:22px 28px 30px;display:flex;flex-direction:column;gap:16px;padding-right:max(28px,env(safe-area-inset-right,0px));max-width:1120px}
+.crumb{font-size:13px;color:var(--mut);font-weight:600}
+.crumb button{background:none;border:0;padding:0;font-weight:600;color:var(--mut)}
+.crumb button:hover{color:var(--navy)}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.who{display:flex;gap:14px;align-items:center}
+.av{flex:none;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#6faedd,#034774);color:#fff;font-weight:800;font-size:17px;display:grid;place-items:center}
+.nm{font-size:24px;font-weight:800;letter-spacing:-.4px}
+.meta{font-size:13.5px;color:var(--mut);font-weight:600;margin-top:2px}
+.btn{font-size:14px;font-weight:700;color:#fff;background:var(--navy);padding:10px 16px;border-radius:10px;border:0;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--navy-2)}
+.btn.ghost{background:#fff;color:var(--navy);box-shadow:var(--sh)}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.card{background:var(--card);border-radius:16px;padding:18px 20px;box-shadow:var(--sh);min-width:0}
+.ct{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;gap:10px}
+.ct span{color:var(--mut);font-weight:600;font-size:13px}
+.tag{font-size:13px;font-weight:800;padding:6px 13px;border-radius:999px;white-space:nowrap}
+.grn{background:var(--grn-bg);color:var(--grn)}.yel{background:var(--yel-bg);color:var(--yel)}.red{background:var(--red-bg);color:var(--red)}.blu{background:var(--soft);color:var(--navy)}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.kc{background:#fff;border-radius:14px;padding:14px 16px;box-shadow:var(--sh)}
+.kv{font-size:28px;font-weight:800;color:var(--navy);letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.kl{font-size:13px;color:var(--mut);font-weight:600;margin-top:2px}
+.sk{display:grid;grid-template-columns:170px minmax(60px,1fr) 44px 116px;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #eef2f6;font-size:14.5px}
+.sk:last-child{border:0}
+.sn{font-weight:700;white-space:nowrap}.pc{font-weight:700;color:var(--ink2);text-align:right;font-variant-numeric:tabular-nums}
+.b{height:10px;border-radius:5px;background:var(--line);overflow:hidden;position:relative}
+.b i{display:block;height:100%;border-radius:5px;background:var(--blue)}
+.b i.was{position:absolute;inset:0 auto 0 0;background:#cfdbe6}
+.b i.now{position:relative}
+.c{font-size:12px;font-weight:800;padding:5px 0;border-radius:999px;text-align:center}
+.sk2{display:grid;grid-template-columns:150px 1fr 86px;align-items:center;gap:12px;font-size:14px;color:var(--ink2);font-weight:600;margin-top:12px}
+.sk2 em{font-style:normal;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;font-size:13px}
+.rec{background:var(--soft);border-left:4px solid var(--navy);border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5}
+.rec b{color:var(--navy)}
+.rec.bad{background:var(--red-bg);border-color:var(--red)}.rec.bad b{color:var(--red)}
+.foot{font-size:12.5px;color:var(--mut);font-weight:600;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:12.5px;font-weight:700;background:var(--soft);color:var(--navy);padding:5px 10px;border-radius:999px}
+.tb{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+.t th{text-align:left;font-size:12px;color:var(--mut);font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:0 8px 10px;white-space:nowrap}
+.t td{padding:11px 8px;border-top:1px solid #eef2f6;font-variant-numeric:tabular-nums}
+.t tr.go{cursor:pointer}.t tr.go:hover td{background:#f6f9fc}
+.t .open{text-align:right;color:var(--navy);font-weight:700;white-space:nowrap}
+.sc{display:inline-block;min-width:44px;text-align:center;font-size:12.5px;font-weight:800;padding:3px 7px;border-radius:999px}
+.track{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.track div{text-align:center;font-size:12px;font-weight:700;color:var(--mut);padding:9px 0;border-radius:9px;background:var(--line)}
+.track .done{background:#cfe3f3;color:var(--navy)}.track .now{background:var(--navy);color:#fff}.track .stall{background:var(--redbar);color:#fff}
+.seg{display:inline-flex;background:#e3ebf3;border-radius:999px;padding:4px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:999px;font-weight:700;font-size:13px;color:var(--mut)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--navy);box-shadow:var(--sh)}
+.tutors{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.tutor{display:flex;flex-direction:column;gap:7px}
+.tutor h3{font-size:16px;font-weight:800}
+.small{font-size:13px;color:var(--mut)}
+.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%{background:var(--grn-bg)}100%{background:#fff}}
+
+/* ---------- student phone ---------- */
+.stu{display:flex;gap:44px;align-items:flex-start;justify-content:center;flex-wrap:wrap;padding:18px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+.phonebox{flex:none;position:relative}
+.device{position:absolute;left:0;top:0;width:400px;height:842px;transform-origin:top left}
+.frame{position:absolute;inset:0;border-radius:66px;background:linear-gradient(135deg,#d9dde3 0%,#8c939d 18%,#e9ecf0 35%,#7d848e 55%,#c9ced5 75%,#6e757f 100%);padding:4px;box-shadow:0 24px 40px -18px rgba(8,30,55,.45),0 6px 14px rgba(8,30,55,.18)}
+.bezel{width:100%;height:100%;border-radius:62px;background:#050608;padding:13px;position:relative}
+.hb{position:absolute;background:linear-gradient(90deg,#7a818b,#c5cad1,#7a818b);border-radius:3px}
+.screen{width:100%;height:100%;border-radius:50px;background:#f3f7fb;overflow:hidden;position:relative;display:flex;flex-direction:column}
+.glare{position:absolute;inset:0;border-radius:50px;background:linear-gradient(115deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,.06) 28%,rgba(255,255,255,0) 40%);pointer-events:none;z-index:20}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:35px;background:#000;border-radius:20px;z-index:10}
+.status{height:54px;display:flex;justify-content:space-between;align-items:center;padding:6px 34px 0 40px;font-weight:600;font-size:16px;color:#0b1520;flex:none}
+.sicons{display:flex;gap:6px;align-items:center}
+.pw{padding:6px 20px 12px;flex:1;display:flex;flex-direction:column;overflow-y:auto;min-height:0}
+.phd{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.date{font-size:12.5px;font-weight:600;color:var(--mut);letter-spacing:.3px;text-transform:uppercase}
+.h1{font-size:28px;font-weight:800;letter-spacing:-.6px;margin-top:2px}
+.avatar{flex:none;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#6faedd,#034774);color:#fff;font-weight:700;font-size:16px;display:grid;place-items:center;box-shadow:0 2px 6px rgba(3,71,116,.3)}
+.hero{margin-top:16px;border-radius:24px;padding:18px 18px 18px 20px;background:linear-gradient(145deg,#0a5a90 0%,#034774 55%,#02385c 100%);color:#fff;display:flex;align-items:center;gap:14px;box-shadow:0 10px 24px -8px rgba(3,71,116,.55);position:relative;overflow:hidden;flex:none}
+.hero:before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-70px;top:-80px;background:rgba(255,255,255,.07)}
+.ring{flex:none;position:relative;width:86px;height:86px}
+.ring span{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:22px;line-height:1}
+.ring small{font-size:10px;font-weight:600;color:#a9d3f2;margin-top:3px}
+.hk{font-size:11px;font-weight:700;letter-spacing:1px;color:#a9d3f2}
+.ht{font-size:19px;font-weight:700;margin:4px 0 2px;letter-spacing:-.3px}
+.hs{font-size:12px;color:#cfe3f3}
+.gobtn{margin-top:11px;display:inline-flex;align-items:center;gap:6px;background:#fff;color:#034774;font-weight:700;font-size:13px;padding:8px 16px;border-radius:999px;border:0;position:relative}
+.prow{display:flex;gap:10px;margin-top:12px;flex:none}
+.stat{flex:1;background:#fff;border-radius:18px;padding:12px 13px;box-shadow:0 1px 2px rgba(11,42,68,.06),0 4px 12px rgba(11,42,68,.05)}
+.sv{font-size:20px;font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:5px}
+.sl{font-size:11px;color:var(--mut);font-weight:600;margin-top:2px}
+.sect{display:flex;justify-content:space-between;align-items:baseline;margin:18px 2px 8px;flex:none}
+.sect b{font-size:16px;font-weight:700}
+.sect button{font-size:12.5px;font-weight:600;color:var(--blue);background:none;border:0;padding:0}
+.skill{background:#fff;border-radius:16px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 2px rgba(11,42,68,.06),0 4px 12px rgba(11,42,68,.05);flex:none}
+.si{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:none;font-weight:800;font-size:14px}
+.psn{font-size:14px;font-weight:600}
+.pbar{height:6px;border-radius:3px;background:#e7eef5;margin-top:7px;overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:3px}
+.pct{font-size:12px;font-weight:700;color:var(--mut);flex:none}
+.read{display:flex;gap:12px;align-items:center;background:#fff;border-radius:16px;padding:10px;box-shadow:0 1px 2px rgba(11,42,68,.06),0 4px 12px rgba(11,42,68,.05);border:0;text-align:left;width:100%;flex:none}
+.thumb{width:58px;height:58px;border-radius:12px;flex:none;background:linear-gradient(135deg,#1d2b64,#5a3fa0 55%,#f8576b);display:grid;place-items:center}
+.rt{font-size:14px;font-weight:700;letter-spacing:-.2px}
+.rm{font-size:11.5px;color:var(--mut);margin-top:3px;font-weight:500}
+.ptab{flex:none;height:84px;background:rgba(255,255,255,.92);border-top:1px solid #e3eaf1;display:flex;justify-content:space-around;padding:10px 12px 0;position:relative}
+.ti{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:#9aa9b8;width:62px;background:none;border:0;padding:0;height:46px}
+.ti[aria-pressed="true"]{color:#034774}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:136px;height:5px;border-radius:3px;background:#0b1520}
+.q{margin-top:10px;background:#fff;border-radius:20px;padding:18px;box-shadow:0 1px 2px rgba(11,42,68,.06),0 4px 12px rgba(11,42,68,.05);flex:none}
+.qp{font-size:12px;font-weight:700;color:var(--mut);letter-spacing:.4px}
+.pb{height:7px;border-radius:4px;background:#e7eef5;margin-top:8px;overflow:hidden}.pb i{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .25s}
+.qt{font-size:21px;font-weight:800;letter-spacing:-.4px;margin-top:16px;line-height:1.25}
+.lis{display:inline-flex;align-items:center;gap:7px;margin-top:12px;background:#e6f3ff;color:#034774;font-weight:700;font-size:13px;padding:8px 14px;border-radius:999px;border:0}
+.opt{margin-top:10px;background:#fff;border:2px solid #e3eaf1;border-radius:16px;padding:14px 16px;font-size:18px;font-weight:700;letter-spacing:.3px;display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left;flex:none}
+.opt[aria-pressed="true"]{border-color:#034774;background:#eef6fd}
+.rad{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid #c3d2df}.opt[aria-pressed="true"] .rad{border:6px solid #034774}
+.next{margin-top:16px;background:#034774;color:#fff;font-weight:800;font-size:16px;text-align:center;padding:15px;border-radius:16px;border:0;width:100%;flex:none}
+.next[disabled]{opacity:.4;cursor:not-allowed}
+.pcard{background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 1px 2px rgba(11,42,68,.06),0 4px 12px rgba(11,42,68,.05);flex:none}
+.chg{font-size:11.5px;font-weight:800;color:#1f8a4c;flex:none}
+.passage{font-size:15.5px;line-height:1.7;margin-top:12px}
+.passage.spaced{letter-spacing:.07em;word-spacing:.16em;line-height:2.05}
+.passage .ln{border-radius:6px;padding:1px 3px}
+.passage.focus .ln{opacity:.22}.passage.focus .ln.on{opacity:1;background:#e6f3ff}
+.toolrow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sw{flex:none;width:46px;height:28px;border-radius:14px;background:#cfdbe6;border:0;position:relative;transition:background .15s}
+.sw:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.sw[aria-pressed="true"]{background:#034774}.sw[aria-pressed="true"]:after{left:21px}
+.ptoast{position:absolute;left:18px;right:18px;bottom:98px;background:#0b2a44;color:#fff;padding:12px 14px;border-radius:14px;font-weight:700;font-size:14px;z-index:15}
+.aside{flex:1;min-width:280px;max-width:440px;display:flex;flex-direction:column;gap:14px;padding-top:26px}
+.aside h2{font-size:26px;font-weight:800;letter-spacing:-.5px;line-height:1.15}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--navy)}
+.line{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid #eef2f6;font-variant-numeric:tabular-nums}
+.line:first-of-type{border-top:0}
+
+/* ---------- modal, toast, presenter bar ---------- */
+.mbg{position:fixed;inset:0;background:rgba(5,20,35,.55);display:grid;place-items:center;z-index:30;padding:20px}
+.modal{max-width:580px;width:100%;max-height:86vh;overflow:auto;padding:24px}
+.modal h2{font-size:21px;font-weight:800;margin-top:6px}
+.modal table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+.modal td{padding:9px 0;border-top:1px solid #eef2f6}
+.modal td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.letter{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:14px;font-size:14px;margin-top:12px;user-select:all}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 88px);background:#0b2a44;color:#fff;padding:11px 18px;border-radius:999px;font-weight:700;font-size:14px;z-index:40;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:90vw}
+.guide{position:fixed;inset:auto 0 0 0;z-index:20;background:#0b1520;color:#fff;padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-height:72px}
+.guide .views{display:flex;background:rgba(255,255,255,.1);border-radius:999px;padding:3px}
+.guide .views a{color:#cfe3f3;text-decoration:none;font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px}
+.guide .views a[aria-current="page"]{background:#fff;color:#034774}
+.guide .steps{display:flex;gap:5px}
+.guide .steps button{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);background:none;color:#cfe3f3;font-weight:700;font-size:12.5px;padding:0}
+.guide .steps button[aria-pressed="true"]{background:#fff;color:#034774;border-color:#fff}
+.guide .say{flex:1;min-width:220px;font-size:13.5px;line-height:1.35}
+.guide .say b{display:block;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:#a9d3f2}
+.guide .gb{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:9px;padding:8px 12px;font-weight:700;font-size:13px}
+.guide .gb:hover{background:rgba(255,255,255,.24)}
+.gopen{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 12px);z-index:20;background:#0b1520;color:#fff;border:0;border-radius:999px;padding:8px 13px;font-weight:700;font-size:12.5px;opacity:.55}
+.gopen:hover{opacity:1}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+  .logo{margin:0 10px 0 0;font-size:17px}.nav{width:auto;margin:0;padding:7px 9px;font-size:13px}.nav svg,.me{display:none}
+  .main{padding:16px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px))}
+  .sk{grid-template-columns:1fr 44px 116px}.sk .b{grid-column:1/-1;grid-row:2}
+  .sk2{grid-template-columns:1fr 86px}.sk2 .b{grid-column:1/-1;grid-row:2}
+  .guide .steps{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<main id="v-teacher"></main>
+<main id="v-parent" hidden></main>
+<main id="v-student" hidden>
+  <div class="stu">
+    <div class="phonebox" id="phonebox"><div class="device" id="device">
+      <div class="frame"><div class="bezel">
+        <div class="hb" style="left:-8px;top:150px;width:5px;height:32px"></div><div class="hb" style="left:-8px;top:210px;width:5px;height:62px"></div><div class="hb" style="left:-8px;top:286px;width:5px;height:62px"></div><div class="hb" style="right:-8px;top:240px;width:5px;height:96px"></div>
+        <div class="screen">
+          <div class="island"></div><div class="glare"></div>
+          <div class="status"><span>7:42</span><span class="sicons">
+            <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#0b1520"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#0b1520"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#0b1520"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#0b1520"/></svg>
+            <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0Z" fill="#0b1520"/><path d="M3.4 6.8a6.6 6.6 0 0 1 9.2 0l-1.4 1.5a4.6 4.6 0 0 0-6.4 0Z" fill="#0b1520"/><path d="M1.1 4.5a9.9 9.9 0 0 1 13.8 0l-1.4 1.5a7.9 7.9 0 0 0-11 0Z" fill="#0b1520"/></svg>
+            <svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="#0b1520" opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2" fill="#0b1520"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="#0b1520" opacity=".45"/></svg>
+          </span></div>
+          <div class="pw" id="pw"></div>
+          <div class="ptab" id="ptab"></div>
+          <div class="ptoast" id="ptoast" hidden></div>
+        </div>
+      </div></div>
+    </div></div>
+    <div class="aside" id="aside"></div>
+  </div>
+</main>
+
+<div class="mbg" id="modal" hidden><div class="card modal" role="dialog" aria-modal="true" id="modalBody"></div></div>
+<div class="toast" id="toast" hidden></div>
+<div class="guide" id="guide">
+  <nav class="views" aria-label="View"><a href="#teacher" data-v="teacher">Teacher</a><a href="#student" data-v="student">Student</a><a href="#parent" data-v="parent">Parent</a></nav>
+  <div class="steps" id="gSteps"></div>
+  <div class="say" id="gSay"></div>
+  <button class="gb" data-act="gprev" aria-label="Previous step">←</button><button class="gb" data-act="gnext">Next →</button><button class="gb" data-act="ghide">Hide</button>
+</div>
+<button class="gopen" id="gopen" data-act="gshow" hidden>Guide</button>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const IC={
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ check:'<path d="M9 11l2 2 4-4"/><rect x="4" y="3" width="16" height="18" rx="2"/>',
+ people:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2 .8 3 2.8 3 6"/>',
+ book:'<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4ZM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6Z"/>',
+ bars:'<path d="M5 20V11M12 20V5M19 20v-6"/>',
+ msg:'<path d="M4 5h16v11H9l-5 4Z"/>',
+ home:'<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1Z"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>'
+};
+const ic=(n,s,c,fill)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${fill?c:"none"}" stroke="${fill?"none":c}" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">${IC[n]}</svg>`;
+const SK={dec:["Decoding","Sounding out new words"],spe:["Spelling patterns","Spelling"],pho:["Phonemic awareness","Hearing the sounds in words"],flu:["Reading fluency","Reading smoothly"]};
+const STU=[
+ {id:"maya",name:"Maya R.",ini:"MR",week:6,min:[32,38,41,44,47,48],days:5,sk:{dec:[34,58],spe:[41,52],pho:[82,86],flu:[58,68]},st:"grn",label:"Improving"},
+ {id:"leo",name:"Leo M.",ini:"LM",week:6,min:[40,45,50,48,51,52],days:5,sk:{dec:[38,62],spe:[44,60],pho:[70,82],flu:[49,66]},st:"grn",label:"Improving"},
+ {id:"noah",name:"Noah B.",ini:"NB",week:5,min:[30,34,39,42,45],days:4,sk:{dec:[42,55],spe:[35,48],pho:[66,74],flu:[52,61]},st:"grn",label:"Improving"},
+ {id:"ava",name:"Ava T.",ini:"AT",week:4,min:[20,28,33,35],days:3,sk:{dec:[45,52],spe:[39,47],pho:[77,80],flu:[60,66]},st:"yel",label:"Building routine"},
+ {id:"zoe",name:"Zoe W.",ini:"ZW",week:3,min:[26,31,30],days:3,sk:{dec:[40,44],spe:[46,49],pho:[72,73],flu:[47,52]},st:"yel",label:"Building routine"},
+ {id:"priya",name:"Priya N.",ini:"PN",week:2,min:[28,30],days:4,sk:{dec:[47,48],spe:[42,43],pho:[85,85],flu:[55,56]},st:"blu",label:"Just started"},
+ {id:"sam",name:"Sam K.",ini:"SK",week:8,min:[36,40,42,41,40,43,41,41],days:5,sk:{dec:[31,33],spe:[36,37],pho:[58,59],flu:[44,45]},st:"red",label:"Stalled at week 8"}
+];
+const S={tv:"dashboard",tid:"maya",pv:"overview",child:"maya",ph:"today",mins:6,streak:7,practiced:false,pr:0,q:0,readStart:0,spaced:false,focus:false,line:0,step:0,flash:false,checkDone:false};
+const by=id=>STU.find(s=>s.id===id), first=s=>s.name.split(" ")[0];
+const lvl=p=>p>=75?["On track","grn","var(--grnbar)"]:p>=50?["Developing","yel","var(--yelbar)"]:["Needs support","red","var(--redbar)"];
+const improving=s=>Object.values(s.sk).filter(v=>v[1]-v[0]>=5).length;
+const wk=s=>s.min[s.min.length-1]+(s.id==="maya"&&S.practiced?4:0);
+function say(t){try{const u=new SpeechSynthesisUtterance(t);u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(el._t);el._t=setTimeout(()=>el.hidden=true,2800);}
+
+/* ---------- routing ---------- */
+const VIEWS=["teacher","student","parent"];
+function show(){
+  const v=VIEWS.includes(location.hash.slice(1))?location.hash.slice(1):"teacher";
+  VIEWS.forEach(n=>$("#v-"+n).hidden=n!==v);
+  $$(".views a").forEach(a=>a.setAttribute("aria-current",a.dataset.v===v?"page":"false"));
+  ({teacher:renderTeacher,student:renderPhone,parent:renderParent})[v](); fit(); window.scrollTo(0,0);
+}
+function go(v){location.hash==="#"+v?show():location.hash=v;}
+window.addEventListener("hashchange",show);
+
+/* ---------- shared web-app pieces ---------- */
+function shell(nav,active,act,ini,name,sub,main){
+  return `<div class="shell"><aside class="side"><div class="logo"><i></i>Dyslective</div>
+   ${nav.map(n=>`<button class="nav" data-act="${act}" data-t="${n[0]}" aria-pressed="${n[0]===active}">${ic(n[2],18,n[0]===active?"#fff":"#a9d3f2")}${n[1]}</button>`).join("")}
+   <div class="me"><div class="dot">${ini}</div><div><b>${name}</b><span>${sub}</span></div></div></aside><section class="main">${main}</section></div>`;
+}
+function weekly(s){
+  const w=s.min.slice(); w[w.length-1]=wk(s);
+  const W=520,H=190,L=8,R=12,T=14,B=26,max=60,n=Math.max(w.length,6),x=i=>L+i*(W-L-R)/(n-1),y=v=>T+(H-T-B)*(1-v/max),last=w.length-1;
+  const pts=w.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block" role="img" aria-label="Practice minutes per week, ${w.join(", ")}">
+   <g stroke="#e7eef5">${[15,35,55].map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}"/>`).join("")}</g>
+   <polygon points="${x(0)},${H-B} ${pts} ${x(last)},${H-B}" fill="rgba(58,134,196,.15)"/><polyline points="${pts}" fill="none" stroke="#3a86c4" stroke-width="3.5" stroke-linejoin="round"/>
+   <circle cx="${x(last)}" cy="${y(w[last])}" r="6" fill="#034774"/>
+   ${w.map((v,i)=>`<text x="${x(i)}" y="${H-6}" text-anchor="${i===0?"start":i===n-1?"end":"middle"}" font-size="11" fill="#7a8b9c" font-family="Inter,sans-serif">W${i+1}</text>`).join("")}
+   <text x="${x(last)-10}" y="${y(w[last])-12}" text-anchor="end" font-size="12" font-weight="700" fill="#0b2a44" font-family="Inter,sans-serif">${w[last]} min</text></svg>`;
+}
+function skills2(s,plain){return Object.entries(s.sk).map(([k,v])=>{const up=v[1]-v[0]>=5;return `<div class="sk2"><span>${plain?SK[k][1]:SK[k][0]}</span><div class="b"><i class="was" style="width:${v[0]}%"></i><i class="now" style="width:${v[1]}%;background:${up?"var(--blue)":"var(--redbar)"}"></i></div><em style="color:${up?"var(--grn)":"var(--red)"}">${v[0]} → ${v[1]}%</em></div>`}).join("");}
+function track(s){return `<div class="track">${[1,2,3,4,5,6,7,8].map(w=>`<div class="${w<s.week?"done":w===s.week?(s.st==="red"?"stall":"now"):""}">Wk ${w}</div>`).join("")}</div>`;}
+/* the laptop dashboard from the paper */
+function dash(s,forParent){
+  const bad=s.st==="red", f=first(s);
+  return `<div class="hd"><div><div class="nm">${s.name} · Week ${s.week} of 8</div><div class="meta">Shared with: Parent · Ms. Lee (ELA)</div></div><span class="tag ${s.st}">${s.label}</span></div>
+  <div class="k"><div class="kc ${s.id==="maya"&&S.flash?"flash":""}"><div class="kv">${wk(s)} min</div><div class="kl">Practice this week${s.id==="maya"&&S.practiced?" · updated just now":""}</div></div>
+   <div class="kc"><div class="kv">${improving(s)} of 4</div><div class="kl">Skills improving</div></div>
+   <div class="kc"><div class="kv">${s.days} days</div><div class="kl">Active this week</div></div></div>
+  <div class="row"><div class="card" style="flex:1.25 1 320px"><div class="ct">Weekly progress</div>${weekly(s)}</div>
+   <div class="card" style="flex:1 1 300px"><div class="ct">Skills <span>risk check → now</span></div>${skills2(s,forParent)}</div></div>
+  <div class="rec ${bad?"bad":""}"><b>Next step:</b> ${bad?`${f} practiced for 8 weeks and his scores did not move. Practice alone is not enough: connect the family with a certified dyslexia tutor and send the progress report for an evaluation referral.`:"Keep practicing. Week 8 progress report will be ready for the school on Nov 21."}</div>`;
+}
+
+/* ---------- teacher ---------- */
+const TNAV=[["dashboard","Dashboard","grid"],["checks","Risk checks","check"],["students","Students","people"],["practice","Practice","book"],["reports","Reports","bars"]];
+function renderTeacher(){
+  let m="";
+  if(S.tv==="dashboard"){
+    m=`<div class="crumb">Dashboard › Fall risk check</div>
+    <div class="hd"><div><div class="nm">Campus overview</div><div class="meta">Sample middle school · Central Texas ISD · 900 students</div></div><button class="btn" data-act="tv" data-t="checks">See risk check results</button></div>
+    <div class="k"><div class="kc"><div class="kv">900 / 900</div><div class="kl">Students screened, grades 6–8</div></div><div class="kc"><div class="kv">72</div><div class="kl">Flagged · 8% of students</div></div><div class="kc"><div class="kv">43</div><div class="kl">In daily practice · 60% of flagged</div></div><div class="kc"><div class="kv">0</div><div class="kl">Had asked for help before</div></div></div>
+    <div class="row"><div class="card" style="flex:1.25 1 320px"><div class="ct">Flagged students by grade <span>of 300 per grade</span></div>
+      ${[["Grade 6",26],["Grade 7",22],["Grade 8",24]].map(g=>`<div class="sk2" style="grid-template-columns:80px 1fr 40px"><span>${g[0]}</span><div class="b" style="height:14px"><i style="width:${g[1]/30*100}%;background:var(--navy)"></i></div><em>${g[1]}</em></div>`).join("")}
+      <p class="small" style="margin-top:14px">Texas requires universal dyslexia screening only in kindergarten and first grade (Texas Education Agency).</p></div>
+     <div class="card" style="flex:1 1 300px"><div class="ct">What this campus pays <span>per year</span></div><div class="kv">$8,490</div>
+      <div class="line" style="margin-top:8px"><span>Risk check · 900 students × $8</span><b>$7,200</b></div><div class="line"><span>Practice seats · 43 students × $30</span><b>$1,290</b></div>
+      <p class="small" style="margin-top:6px">Paid from existing instructional, technology, or dyslexia screening budgets.</p></div></div>
+    <div class="card"><div class="ct">Needs your attention</div><div class="tb"><table class="t"><tbody>${STU.filter(s=>s.st==="red"||s.st==="yel").map(s=>`<tr class="go" data-act="tstu" data-id="${s.id}"><td><b>${s.name}</b></td><td>Week ${s.week} of 8</td><td>${wk(s)} min this week</td><td><span class="tag ${s.st}">${s.label}</span></td><td class="open">Open →</td></tr>`).join("")}</tbody></table></div></div>`;
+  } else if(S.tv==="checks"){
+    m=`<div class="crumb">Risk checks › Grade 8 › Period 3</div>
+    <div class="hd"><div><div class="nm">Risk check results</div><div class="meta">Ms. Lee's classes · 132 screened · 11 flagged · average 12 min</div></div></div>
+    <div class="card"><div class="ct">Flagged students <span>skill profile vs. grade level</span></div><div class="tb"><table class="t"><thead><tr><th>Student</th>${Object.values(SK).map(v=>`<th>${v[0]}</th>`).join("")}<th></th></tr></thead><tbody>
+    ${STU.map(s=>`<tr class="go" data-act="tcheck" data-id="${s.id}"><td><b>${s.name}</b>${s.id==="maya"&&S.checkDone?' <span class="sc grn">New</span>':""}</td>${Object.values(s.sk).map(v=>`<td><span class="sc ${lvl(v[0])[1]}">${v[0]}%</span></td>`).join("")}<td class="open">Open →</td></tr>`).join("")}</tbody></table></div></div>
+    <div class="foot"><span>This is a screening, not a diagnosis.</span><span>Aligned to the Texas Dyslexia Handbook</span></div>`;
+  } else if(S.tv==="check"){            /* the iPad screen from the paper */
+    const s=by(S.tid), sc=Object.entries(s.sk).map(([k,v])=>[k,v[0]]), fl=sc.filter(x=>x[1]<50).length, weak=sc.slice().sort((a,b)=>a[1]-b[1]).slice(0,2);
+    m=`<div class="crumb"><button data-act="tv" data-t="checks">Risk checks</button> › Grade 8 › Period 3</div>
+    <div class="hd"><div class="who"><div class="av">${s.ini}</div><div><div class="nm">${s.name}</div><div class="meta">Grade 8 · Completed Oct 14 · 12 min</div></div></div><button class="btn" data-act="say" data-msg="Skill profile shared with ${first(s)}'s parent">Share with parent</button></div>
+    <div class="row"><div class="card" style="flex:0 0 250px"><div class="ct">Result</div>
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center"><svg width="104" height="104" viewBox="0 0 44 44"><circle cx="22" cy="22" r="17" fill="none" stroke="#f6e1de" stroke-width="5.5"/><circle cx="22" cy="22" r="17" fill="none" stroke="#e0574a" stroke-width="5.5" stroke-linecap="round" stroke-dasharray="${106.8*fl/4} 107" transform="rotate(-90 22 22)"/><text x="22" y="25.5" text-anchor="middle" font-size="10" font-weight="800" fill="#c2382b" font-family="Inter,sans-serif">${fl}/4</text></svg>
+      <div style="font-size:22px;color:var(--red);font-weight:800;margin-top:6px">Flagged</div><div style="font-size:14px;color:var(--ink2);font-weight:600">${fl} of 4 skills below level</div></div>
+      <div style="margin-top:14px;border-top:1px solid #eef2f6;padding-top:12px" class="small"><b style="font-weight:600">Practice plan</b></div><div class="chips">${weak.map(x=>`<span class="chip">${x[0]==="spe"?"Spelling":SK[x[0]][0]}</span>`).join("")}</div></div>
+     <div class="card" style="flex:1 1 380px"><div class="ct">Skill profile <span>vs. grade level</span></div>
+      ${sc.map(([k,p])=>{const l=lvl(p);return `<div class="sk"><div class="sn">${SK[k][0]}</div><div class="b"><i style="width:${p}%;background:${l[2]}"></i></div><div class="pc">${p}%</div><div class="c ${l[1]}">${l[0]}</div></div>`}).join("")}</div></div>
+    <div class="rec"><b>Recommended next step:</b> Start daily practice on ${weak.map(x=>SK[x[0]][0].toLowerCase()).join(" and ")}, and share this profile with the campus dyslexia coordinator to consider a full evaluation.</div>
+    <div class="row"><button class="btn ghost" data-act="tstu" data-id="${s.id}">See ${first(s)}'s progress →</button></div>
+    <div class="foot"><span>This is a screening, not a diagnosis.</span><span>Aligned to the Texas Dyslexia Handbook</span></div>`;
+  } else if(S.tv==="students"){
+    m=`<div class="crumb">Students › In daily practice</div><div class="hd"><div><div class="nm">Students</div><div class="meta">Ms. Lee's classes · 7 flagged students in practice</div></div></div>
+    <div class="card"><div class="tb"><table class="t"><thead><tr><th>Student</th><th>Week</th><th>Practice this week</th><th>Skills improving</th><th>Status</th><th></th></tr></thead><tbody>
+    ${STU.map(s=>`<tr class="go" data-act="tstu" data-id="${s.id}"><td><b>${s.name}</b></td><td>${s.week} of 8</td><td>${wk(s)} min</td><td>${improving(s)} of 4</td><td><span class="tag ${s.st}">${s.label}</span></td><td class="open">Open →</td></tr>`).join("")}</tbody></table></div></div>`;
+  } else if(S.tv==="student"){          /* the laptop dashboard from the paper */
+    const s=by(S.tid), bad=s.st==="red";
+    m=`<div class="crumb"><button data-act="tv" data-t="students">Students</button> › ${s.name}</div>${dash(s,false)}
+    <div class="card"><div class="ct">8-week plan <span>risk check Oct 14</span></div>${track(s)}</div>
+    <div class="row"><button class="btn ghost" data-act="report" data-id="${s.id}">Progress report</button><button class="btn ghost" data-act="tcheck" data-id="${s.id}">Risk check result</button>
+     <button class="btn" data-act="say" data-msg="${bad?"Progress report sent to the campus dyslexia coordinator":"Progress shared with "+first(s)+"'s parent"}">${bad?"Send report to coordinator":"Share with parent"}</button></div>`;
+  } else if(S.tv==="practice"){
+    m=`<div class="crumb">Practice › This week</div><div class="hd"><div><div class="nm">Practice this week</div><div class="meta">Goal: 10 minutes a day, 50 minutes a week</div></div></div>
+    <div class="card">${STU.map(s=>`<div class="sk2" style="grid-template-columns:110px 1fr 70px;cursor:pointer" data-act="tstu" data-id="${s.id}"><span><b>${s.name}</b></span><div class="b" style="height:12px"><i style="width:${Math.min(100,wk(s)/50*100)}%"></i></div><em>${wk(s)} min</em></div>`).join("")}</div>`;
+  } else {
+    m=`<div class="crumb">Reports › Progress reports</div><div class="hd"><div><div class="nm">Reports</div><div class="meta">A record of screening and practice the school can use for an evaluation referral</div></div></div>
+    <div class="card"><div class="tb"><table class="t"><tbody>${STU.map(s=>`<tr class="go" data-act="report" data-id="${s.id}"><td><b>${s.name}</b></td><td>Weeks 1–${s.week}</td><td><span class="tag ${s.st}">${s.week>=8?"Week 8 report ready":s.label}</span></td><td class="open">Open report →</td></tr>`).join("")}</tbody></table></div></div>`;
+  }
+  const act={check:"checks",student:"students"}[S.tv]||S.tv;
+  $("#v-teacher").innerHTML=shell(TNAV,act,"tv","ML","Ms. Lee","ELA · Grade 8",m); S.flash=false;
+}
+
+/* ---------- parent ---------- */
+const PNAV=[["overview","Overview","grid"],["skills","Skills","check"],["practice","Practice","book"],["reports","Reports","bars"],["messages","Messages","msg"]];
+const TUTORS=[["Elena Ruiz","Certified Academic Language Therapist","Round Rock · 2.1 mi","Works on decoding and spelling with grades 6–10"],["Marcus Bell","Licensed Dyslexia Therapist","Austin · 6.4 mi","Structured literacy for teens · evenings"],["Dana Okafor","Certified dyslexia tutor","Online","Decoding and fluency · weekends"]];
+function renderParent(){
+  const s=by(S.child), f=first(s), bad=s.st==="red";
+  const pick=`<div class="seg" role="group" aria-label="Sample family"><button data-act="child" data-id="maya" aria-pressed="${S.child==="maya"}">Maya R. · improving</button><button data-act="child" data-id="sam" aria-pressed="${S.child==="sam"}">Sam K. · stalled</button></div>`;
+  let m=`<div class="hd"><div class="crumb">Parent view · the same data the teacher sees</div>${pick}</div>`;
+  if(S.pv==="overview"){
+    m+=dash(s,true);
+    m+=bad?`<div class="ct" style="margin:6px 0 -4px">Certified tutors matched to ${f} <span>by his progress data: decoding and spelling</span></div>
+      <div class="tutors">${TUTORS.map(t=>`<div class="card tutor"><span class="chip" style="align-self:flex-start">Sample listing</span><h3>${t[0]}</h3><div class="small">${t[1]}<br>${t[2]}</div><div>${t[3]}</div><button class="btn" style="margin-top:auto;justify-content:center" data-act="say" data-msg="Request sent to ${t[0]} with ${f}'s progress report">Request an intro</button></div>`).join("")}</div>
+      <p class="small">Paying for a listing never affects who is shown.</p>
+      <div class="card" style="display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:240px"><b>Ask the school for a free evaluation.</b> A private one costs $1,500 to $5,000 (Blossom Reading). The progress report shows what was tried and for how long.</div><button class="btn" data-act="letter" data-id="${s.id}">Draft the request</button></div>`
+     :`<div class="card small"><b style="color:var(--ink)">Tutor match: not needed right now.</b> It opens only if progress stalls after week 8. Switch to Sam K. to see what that family gets.</div>`;
+  } else if(S.pv==="skills"){
+    m+=`<div class="nm">How each skill is moving</div><div class="card">${skills2(s,true)}<p class="small" style="margin-top:14px">Grey is the score at the risk check on Oct 14. The colored bar is the score now.</p></div>`;
+  } else if(S.pv==="practice"){
+    m+=`<div class="nm">${f}'s practice</div><div class="card"><div class="ct">Minutes per week</div>${weekly(s)}</div><div class="card"><div class="ct">8-week plan</div>${track(s)}</div>`;
+  } else if(S.pv==="reports"){
+    m+=`<div class="nm">Reports</div><div class="card" style="display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap"><div><b>Progress report · weeks 1–${s.week}</b><div class="small">What ${f} practiced and how the scores changed</div></div><button class="btn" data-act="report" data-id="${s.id}">Open report</button></div>
+      <div class="card" style="display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap"><div><b>Evaluation request letter</b><div class="small">Ask the school for a free dyslexia evaluation</div></div><button class="btn ghost" data-act="letter" data-id="${s.id}">Draft the request</button></div>`;
+  } else {
+    m+=`<div class="nm">Messages</div><div class="card"><div class="who"><div class="av" style="width:40px;height:40px;font-size:14px">ML</div><div><b>Ms. Lee</b><div class="small">ELA · Grade 8 · sample message</div></div></div><p style="margin-top:12px;font-size:15px">${bad?`Hi, I wanted to share ${f}'s week 8 report. He practiced every day, and his scores did not change, so I am sending the report to our dyslexia coordinator. You will see tutor matches on your Overview page.`:`Hi, I shared ${f}'s skill profile with you. She is practicing every day and her decoding is going up. Nothing you need to do right now.`}</p></div>`;
+  }
+  m+=`<div class="foot"><span>Family plan: $9.99 a month. Dyslective does not diagnose dyslexia.</span><span>Every district signs a data-privacy agreement that meets FERPA.</span></div>`;
+  $("#v-parent").innerHTML=shell(PNAV,S.pv,"pv",f[0]+"P",f+"'s parent","Family plan",m); S.flash=false;
+}
+
+/* ---------- student phone ---------- */
+const PASSAGE="Before a big tournament, pro esports players do not just play for hours. Coaches break practice into short drills. One drill might be ten minutes of aiming. Another might be reviewing a lost match to find one mistake. Short, focused practice every day beats one long session a week. Your brain learns best in small, regular pieces.";
+const LINES=PASSAGE.match(/[^.]+\./g).map(s=>s.trim());
+const Q=[
+ {k:"pho",q:"How many sounds are in the word “ship”?",say:"ship",o:["2","3","4"]},
+ {k:"pho",q:"Say “stand” without the /t/ sound. What word is left?",say:"stand",o:["sand","stan","tand","and"]},
+ {k:"pho",q:"Which word starts with the same sound as “phone”?",say:"phone",o:["pan","fish","hope"]},
+ {k:"dec",q:"Which made-up word rhymes with “trake”?",o:["plake","track","trike","trank"]},
+ {k:"dec",q:"How many syllables are in the made-up word “glimbet”?",o:["1","2","3"]},
+ {k:"spe",q:"Which word is spelled correctly?",say:"necessary",o:["nesessary","necessary","neccesary","necesary"]},
+ {k:"spe",q:"She was ___ to see her results.",o:["releived","relieved","releaved"]},
+ {k:"spe",q:"Which word is spelled correctly?",say:"separate",o:["seperate","separate","seprate"]},
+ {k:"dec",q:"Which made-up word has the same vowel sound as “boat”?",o:["floam","flam","flim"]},
+ {k:"flu",q:"Read this at your normal speed.",passage:true},
+ {k:"flu",q:"What do coaches do, according to the passage?",o:["Make players practice for hours","Break practice into short drills","Only review wins"]},
+ {k:"flu",q:"What is the main idea?",o:["Esports is harder than other sports","Short, regular practice works best","Tournaments last a long time"]}
+];
+const P=[{q:"The ___ was full of students.",o:["libary","library","liberry"],a:1},{q:"Which word is spelled correctly?",o:["beleive","believe","beleve"],a:1},{q:"Which word has the same vowel pattern as “boat”?",o:["coach","cot","bought"],a:0}];
+const spk='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#034774" stroke-width="2.2" stroke-linecap="round"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="#034774"/><path d="M16 9a4 4 0 0 1 0 6"/></svg>';
+const chev='<svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 1.5 8 6l-5 4.5" fill="none" stroke="#034774" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function ptoast(t){const el=$("#ptoast");el.textContent=t;el.hidden=false;clearTimeout(el._t);el._t=setTimeout(()=>el.hidden=true,2600);}
+function phd(d,h){return `<div class="phd"><div><div class="date">${d}</div><div class="h1">${h}</div></div><div class="avatar">M</div></div>`;}
+function qcard(label,pct,q,hear){return `<div class="q"><div class="qp">${label}</div><div class="pb"><i style="width:${pct}%"></i></div><div class="qt">${q}</div>${hear?`<button class="lis" data-act="hear" data-t="${hear}">${spk}Hear the word</button>`:""}</div>`;}
+function opts(o,act){return o.map((t,i)=>`<button class="opt" data-act="${act}" data-i="${i}" aria-pressed="false"><span>${t}</span><span class="rad"></span></button>`).join("");}
+function renderPhone(){
+  const w=$("#pw"), d=S.practiced, tabOn={today:"today",practice:"today",check:"today",checkdone:"today",read:"read",progress:"progress",tools:"tools"}[S.ph];
+  $("#ptab").innerHTML=[["today","Today","home"],["read","Read","book"],["progress","Progress","bars"],["tools","Tools","gear"]].map(t=>`<button class="ti" data-act="ph" data-t="${t[0]}" aria-pressed="${t[0]===tabOn}">${ic(t[2],24,t[0]===tabOn?"#034774":"#9aa9b8",t[0]==="today"&&tabOn==="today")}${t[1]}</button>`).join("")+'<div class="homebar"></div>';
+  if(S.ph==="today"){
+    w.innerHTML=phd("Tuesday, Oct 14","Hey, Maya")+
+     `<div class="hero"><div class="ring"><svg width="86" height="86" viewBox="0 0 86 86"><circle cx="43" cy="43" r="36" fill="none" stroke="rgba(255,255,255,.16)" stroke-width="8"/><circle cx="43" cy="43" r="36" fill="none" stroke="#6faedd" stroke-width="8" stroke-linecap="round" stroke-dasharray="226" stroke-dashoffset="${226*(1-S.mins/10)}" transform="rotate(-90 43 43)"/></svg><span>${S.mins}<small>of 10 min</small></span></div>
+      <div style="position:relative"><div class="hk">TODAY'S PRACTICE</div><div class="ht">${d?"Done for today":"Keep it going"}</div><div class="hs">${d?"See you tomorrow":(10-S.mins)+" minutes left today"}</div>${d?"":`<button class="gobtn" data-act="pstart">Continue ${chev}</button>`}</div></div>
+     <div class="prow"><div class="stat"><div class="sv"><svg width="15" height="18" viewBox="0 0 16 18"><path d="M8 0C9 4 13 6 13 11a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3C6 6 7 3 8 0Z" fill="#f07a2b"/></svg>${S.streak}</div><div class="sl">Day streak</div></div><div class="stat"><div class="sv">${d?4:3}/5</div><div class="sl">Days this week</div></div><div class="stat"><div class="sv">+12%</div><div class="sl">Reading speed</div></div></div>
+     <div class="sect"><b>Your focus skills</b><button data-act="ph" data-t="progress">See all</button></div>
+     <div class="skill"><div class="si" style="background:#fff1e6;color:#e0651f">Ab</div><div style="flex:1"><div class="psn">Spelling patterns</div><div class="pbar"><i style="width:${d?52:46}%;background:#f0883e"></i></div></div><div class="pct">${d?52:46}%</div></div>
+     <div class="skill"><div class="si" style="background:#e6f3ff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#034774" stroke-width="2.4" stroke-linecap="round"><path d="M4 12h3l3-7 4 14 3-7h3"/></svg></div><div style="flex:1"><div class="psn">Reading fluency</div><div class="pbar"><i style="width:72%;background:#3a86c4"></i></div></div><div class="pct">72%</div></div>
+     <div class="sect" style="margin-top:12px"><b>Up next</b></div>
+     <button class="read" data-act="ph" data-t="read"><div class="thumb"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12a4 4 0 0 1 4 4v1.5a3.5 3.5 0 0 1-6.3 2.1L14.5 14h-5l-1.2 1.6A3.5 3.5 0 0 1 2 13.5V12a4 4 0 0 1 4-4Z"/><path d="M7 10.5v3M5.5 12h3"/></svg></div><div><div class="rt">How pro esports teams practice</div><div class="rm">3 min read · Read-aloud available</div></div></button>`;
+  } else if(S.ph==="check"){
+    const it=Q[S.q], label=`QUESTION ${S.q+1} OF ${Q.length}`, pct=(S.q+1)/Q.length*100;
+    w.innerHTML=phd("Reading check",SK[it.k][0])+(it.passage
+      ?`<div class="q"><div class="qp">${label}</div><div class="pb"><i style="width:${pct}%"></i></div><div class="qt" style="font-size:18px">${it.q}</div><div class="passage">${PASSAGE}</div></div><button class="next" data-act="qread">Done reading</button>`
+      :qcard(label,pct,it.q,it.say)+opts(it.o,"qpick")+`<button class="next" id="qnext" data-act="qnext" disabled>${S.q===Q.length-1?"Finish":"Next"}</button>`);
+  } else if(S.ph==="checkdone"){
+    w.innerHTML=phd("Reading check","Nice work, Maya")+`<div class="q"><div class="qp">ALL 12 QUESTIONS DONE</div><div class="pb"><i style="width:100%"></i></div><div class="qt">Your practice plan is ready.</div><p style="margin-top:10px;color:var(--mut);font-size:15px">10 minutes a day, picked for the skills that will help you most.</p></div><button class="next" data-act="ph" data-t="today">Go to Today</button>`;
+  } else if(S.ph==="practice"){
+    const it=P[S.pr];
+    w.innerHTML=phd("Today's practice","Spelling patterns")+qcard(`QUESTION ${S.pr+1} OF ${P.length}`,(S.pr+1)/P.length*100,it.q)+opts(it.o,"panswer")+`<p id="fb" style="margin-top:12px;min-height:22px;font-size:14.5px;font-weight:700"></p>`;
+  } else if(S.ph==="read"){
+    w.innerHTML=phd("Short read · 3 min","Esports practice")+`<div class="pcard" style="margin-top:12px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="lis" style="margin:0" data-act="aloud">${spk}Read aloud</button>${S.focus?'<button class="lis" style="margin:0" data-act="lprev">↑</button><button class="lis" style="margin:0" data-act="lnext">↓</button>':""}</div>
+      <div class="passage ${S.spaced?"spaced":""} ${S.focus?"focus":""}">${LINES.map((t,i)=>`<span class="ln ${i===S.line?"on":""}" data-act="line" data-l="${i}">${t}</span>`).join(" ")}</div></div>
+      <p style="font-size:12.5px;color:var(--mut);margin-top:10px">Turn on spacing and line focus in Tools.</p>`;
+  } else if(S.ph==="progress"){
+    w.innerHTML=phd("Week 6 of 8","Your progress")+
+     `<div class="hero" style="display:block;padding:18px 20px"><div class="hk">NEXT STEP</div><div class="ht" style="font-size:20px">You're on track</div><div class="hs" style="font-size:12.5px;line-height:1.4">3 of 4 skills are improving. Keep your 10 minutes a day going.</div><button class="gobtn" data-act="ph" data-t="today">See my plan ${chev}</button></div>
+     <div class="pcard" style="margin-top:12px"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px">Weekly progress</b><span class="chg">▲ 18%</span></div>
+      <svg width="100%" height="96" viewBox="0 0 300 96" preserveAspectRatio="none" style="margin-top:8px;display:block"><g stroke="#e7eef5"><line x1="0" y1="16" x2="300" y2="16"/><line x1="0" y1="48" x2="300" y2="48"/><line x1="0" y1="80" x2="300" y2="80"/></g><path d="M0 80 L50 74 L100 66 L150 61 L200 46 L250 38 L300 26 L300 96 L0 96Z" fill="rgba(58,134,196,.14)"/><path d="M0 80 L50 74 L100 66 L150 61 L200 46 L250 38 L300 26" fill="none" stroke="#3a86c4" stroke-width="3.5" stroke-linejoin="round"/><circle cx="295" cy="26" r="5" fill="#034774"/></svg></div>
+     <div class="sect" style="margin-top:14px"><b>Skills</b></div>
+     ${[["Decoding",58,"#3a86c4",24],["Spelling patterns",52,"#f0883e",11],["Reading fluency",72,"#3a86c4",14]].map(x=>`<div class="skill"><div style="flex:1"><div class="psn">${x[0]}</div><div class="pbar"><i style="width:${x[1]}%;background:${x[2]}"></i></div></div><div class="chg">+${x[3]}%</div></div>`).join("")}`;
+  } else {
+    w.innerHTML=phd("Works in every class","Reading tools")+
+     [["aloud","Read aloud","Hear any text out loud",null],["space","Letter and line spacing","More room between letters and lines",S.spaced],["focus","Line focus","Highlights one line at a time",S.focus]].map(t=>`<div class="pcard" style="margin-top:10px"><div class="toolrow"><div><div class="psn" style="font-size:15px;font-weight:700">${t[1]}</div><div class="rm">${t[2]}</div></div>${t[3]===null?`<button class="lis" style="margin:0" data-act="aloud">${spk}Try</button>`:`<button class="sw" data-act="${t[0]}" aria-pressed="${t[3]}" aria-label="${t[1]}"></button>`}</div></div>`).join("")+
+     `<button class="next" data-act="ph" data-t="read">Try them on a passage</button><p style="font-size:12.5px;color:var(--mut);margin-top:10px">Use them on science texts, history articles, or math word problems.</p>`;
+  }
+  const m=by("maya"), chk=S.ph==="check"||S.ph==="checkdone";
+  $("#aside").innerHTML=chk
+   ?`<div><div class="eyebrow">Step 1 · In class</div><h2>The 10–15 minute risk check</h2></div><p style="font-size:15px;color:var(--ink2)">Every student in the grade takes it, so nobody is singled out. Maya never sees a score or the word "dyslexia." Her teacher gets the skill profile.</p>
+     <div class="row"><button class="btn" data-act="qskip">${S.ph==="checkdone"?"Open Maya's result as Ms. Lee →":"Skip to the end"}</button>${S.ph==="check"?"":'<button class="btn ghost" data-act="qrestart">Take it again</button>'}</div>`
+   :`<div><div class="eyebrow">Maya's phone · Grade 8</div><h2>Ten private minutes a day</h2></div><p style="font-size:15px;color:var(--ink2)">It looks like any study app. The word "dyslexia" never appears on a student's screen.</p>
+     <div class="card"><div class="ct">What Ms. Lee and Maya's parent see</div><div class="line ${S.flash?"flash":""}"><span>Practice this week</span><b>${wk(m)} min${S.practiced?" · updated just now":""}</b></div><div class="line"><span>Day streak</span><b>${S.streak} days</b></div><div class="line"><span>Skills improving</span><b>${improving(m)} of 4</b></div></div>
+     <div class="row"><button class="btn ghost" data-act="qrestart">Take the risk check</button></div>`;
+  S.flash=false;
+}
+function fit(){
+  const k=Math.min(1,(innerHeight-120)/842,(innerWidth-32)/400), d=$("#device"), b=$("#phonebox");
+  d.style.transform=`scale(${k})`; b.style.width=400*k+"px"; b.style.height=842*k+"px";
+}
+window.addEventListener("resize",fit);
+
+/* ---------- modals ---------- */
+function openModal(h){$("#modalBody").innerHTML=h;$("#modal").hidden=false;const b=$("#modalBody button");if(b)b.focus();}
+function report(id){
+  const s=by(id), tot=s.min.reduce((a,b)=>a+b,0);
+  openModal(`<div class="eyebrow">Progress report · sample</div><h2>${s.name} · Grade 8 · Weeks 1–${s.week}</h2><p class="small" style="margin-top:6px">For the campus dyslexia coordinator. A record of screening and practice, not a diagnosis.</p>
+  <table><tr><td>Risk check result (Oct 14)</td><td>Flagged</td></tr><tr><td>Total practice time</td><td>${Math.floor(tot/60)} h ${tot%60} min</td></tr>${Object.entries(s.sk).map(([k,v])=>`<tr><td>${SK[k][0]}</td><td>${v[0]}% → ${v[1]}%</td></tr>`).join("")}<tr><td>Outcome</td><td>${s.st==="red"?"No improvement after 8 weeks":s.label}</td></tr></table>
+  <div class="rec" style="margin-top:14px;font-size:14px">Practice follows structured literacy and is reviewed by a Certified Academic Language Therapist. The report fits the evaluation process in the Texas Dyslexia Handbook.</div>
+  <div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn" data-act="close">Close</button></div>`);
+}
+function letter(id){
+  const s=by(id), f=first(s);
+  openModal(`<div class="eyebrow">Evaluation request · draft</div><h2>Letter to the school</h2><div class="letter" id="letterText">Dear Campus Dyslexia Coordinator,\n\nI am writing to request a full individual evaluation for my child, ${s.name}, grade 8, for dyslexia and related reading difficulties.\n\n${f} completed a Dyslective reading risk check on October 14 and was flagged in decoding and spelling. Since then ${f} has completed ${s.week} weeks of daily practice. The attached progress report shows the scores at the start and now.\n\nPlease send me the consent form and let me know the next steps.\n\nThank you,\n[Parent name]</div>
+  <div class="row" style="justify-content:flex-end;margin-top:16px"><button class="btn ghost" data-act="copy">Copy text</button><button class="btn" data-act="close">Close</button></div>`);
+}
+
+/* ---------- presenter guide ---------- */
+const STEPS=[
+ ["The gap","A campus screened all 900 students. 72 were flagged, and none of them had asked for help.",()=>{S.tv="dashboard";go("teacher");}],
+ ["The risk check","Maya takes the check on her own screen. Answer one question, then press “Skip to the end.”",()=>{S.ph="check";S.q=0;go("student");}],
+ ["The skill profile","Ms. Lee gets Maya's result: flagged in 2 of 4 skills, with a practice plan.",()=>{S.checkDone=true;S.tv="check";S.tid="maya";go("teacher");}],
+ ["Daily practice","Maya taps Continue and does her 10 minutes. The panel on the right updates.",()=>{S.ph="today";go("student");}],
+ ["Six weeks later","The shared dashboard shows Maya's practice and her skill gains.",()=>{S.tv="student";S.tid="maya";go("teacher");}],
+ ["When practice isn't enough","Sam stalled at week 8, so his parent gets a tutor match and a free evaluation request.",()=>{S.child="sam";S.pv="overview";go("parent");}]
+];
+function renderGuide(){
+  $("#gSteps").innerHTML=STEPS.map((s,i)=>`<button data-act="gstep" data-i="${i}" aria-pressed="${i===S.step}" aria-label="Step ${i+1}: ${s[0]}">${i+1}</button>`).join("");
+  $("#gSay").innerHTML=`<b>Step ${S.step+1} of ${STEPS.length} · ${STEPS[S.step][0]}</b>${STEPS[S.step][1]}`;
+}
+function gstep(i){S.step=Math.max(0,Math.min(STEPS.length-1,i));STEPS[S.step][2]();renderGuide();}
+
+/* ---------- actions ---------- */
+const A={
+ tv:d=>{S.tv=d.t;renderTeacher();window.scrollTo(0,0);},
+ tstu:d=>{S.tv="student";S.tid=d.id;renderTeacher();window.scrollTo(0,0);},
+ tcheck:d=>{S.tv="check";S.tid=d.id;renderTeacher();window.scrollTo(0,0);},
+ pv:d=>{S.pv=d.t;renderParent();window.scrollTo(0,0);},
+ child:d=>{S.child=d.id;renderParent();},
+ say:d=>toast(d.msg), report:d=>report(d.id), letter:d=>letter(d.id), close:()=>$("#modal").hidden=true,
+ copy:()=>{const el=$("#letterText"),sel=()=>{const r=document.createRange();r.selectNodeContents(el);const g=getSelection();g.removeAllRanges();g.addRange(r);toast("Text selected. Press Ctrl or Cmd + C");};
+   try{navigator.clipboard.writeText(el.textContent).then(()=>toast("Copied"),sel);}catch(e){sel();}},
+ hear:d=>say(d.t),
+ ph:d=>{S.ph=d.t;renderPhone();},
+ qrestart:()=>{S.ph="check";S.q=0;renderPhone();},
+ qpick:(d,b)=>{$$("#pw .opt").forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");$("#qnext").disabled=false;},
+ qnext:()=>{S.q++;if(S.q>=Q.length){S.ph="checkdone";S.checkDone=true;}renderPhone();},
+ qread:()=>{S.q++;renderPhone();},
+ qskip:()=>{if(S.ph==="check"){S.ph="checkdone";S.checkDone=true;renderPhone();}else{S.tv="check";S.tid="maya";go("teacher");}},
+ pstart:()=>{S.ph="practice";S.pr=0;renderPhone();},
+ panswer:(d,b)=>{const it=P[S.pr],ok=+d.i===it.a;b.setAttribute("aria-pressed","true");$$("#pw .opt").forEach(x=>x.disabled=true);
+   $("#fb").innerHTML=ok?'<span style="color:var(--grn)">Nice. That\'s right.</span>':`<span style="color:var(--red)">Not quite.</span> It's “${it.o[it.a]}”.`;
+   setTimeout(()=>{if(S.ph!=="practice")return;S.pr++;if(S.pr>=P.length){S.ph="today";S.mins=10;if(!S.practiced){S.streak++;S.practiced=true;S.flash=true;}renderPhone();ptoast(`Practice done. ${S.streak}-day streak`);}else renderPhone();},850);},
+ aloud:()=>say(S.focus?LINES[S.line]:PASSAGE), space:()=>{S.spaced=!S.spaced;renderPhone();}, focus:()=>{S.focus=!S.focus;renderPhone();},
+ line:d=>{if(S.focus){S.line=+d.l;renderPhone();}}, lprev:()=>{S.line=Math.max(0,S.line-1);renderPhone();}, lnext:()=>{S.line=Math.min(LINES.length-1,S.line+1);renderPhone();},
+ gstep:d=>gstep(+d.i), gnext:()=>gstep(S.step+1), gprev:()=>gstep(S.step-1),
+ ghide:()=>{$("#guide").hidden=true;$("#gopen").hidden=false;},
+ gshow:()=>{$("#guide").hidden=false;$("#gopen").hidden=true;}
+};
+document.addEventListener("click",e=>{
+  if(e.target.id==="modal"){$("#modal").hidden=true;return;}
+  const b=e.target.closest("[data-act]"); if(b&&!b.disabled&&A[b.dataset.act])A[b.dataset.act](b.dataset,b);
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape")$("#modal").hidden=true;
+  if(!$("#modal").hidden)return;
+  if(e.key==="ArrowRight"){e.preventDefault();gstep(S.step+1);} if(e.key==="ArrowLeft"){e.preventDefault();gstep(S.step-1);}
+});
+renderGuide(); show();
+})();
+</script>
+</body></html>

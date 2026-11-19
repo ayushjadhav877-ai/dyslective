@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dyslective | Reading risk checks and daily practice for grades 6–12</title>
+<meta name="description" content="Dyslective gives every middle and high school student a 10–15 minute reading risk check, then ten private minutes of practice a day for the students who need it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--navy:#034774;--navy2:#02385c;--sky:#6faedd;--soft:#e6f3ff;--bg:#f3f7fb;--ink:#0b2a44;--ink2:#33517a;--mut:#6b7d8f;--cream:#fff7f1}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:#fff;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid #e7eef5}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.3px;text-decoration:none;color:var(--navy)}
+.logo i{width:26px;height:26px;border-radius:8px;background:var(--sky);display:block}
+nav{display:flex;align-items:center;gap:22px;font-weight:600;font-size:14.5px}
+nav a{text-decoration:none;color:var(--ink2)}nav a:hover{color:var(--navy)}
+.btn{display:inline-block;background:var(--navy);color:#fff!important;font-weight:700;padding:11px 20px;border-radius:10px;text-decoration:none;font-size:15px}
+.btn:hover{background:var(--navy2)}
+.btn.light{background:#fff;color:var(--navy)!important}
+.hero{background:linear-gradient(160deg,#0a5a90 0%,#034774 50%,#02385c 100%);color:#fff;padding:72px 0 0;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center}
+.eyebrow{font-size:12.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--sky)}
+h1{font-size:clamp(34px,5vw,54px);line-height:1.06;letter-spacing:-1.4px;margin:12px 0 16px;font-weight:800}
+.hero p{font-size:18px;color:#d6e8f6;max-width:520px;margin:0 0 26px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero img{margin-bottom:-6px}
+.note{font-size:13px;color:#a9d3f2;margin-top:18px}
+section{padding:72px 0}
+h2{font-size:clamp(26px,3.4vw,36px);letter-spacing:-.8px;line-height:1.15;margin:8px 0 14px;font-weight:800}
+.lead{font-size:17px;color:var(--ink2);max-width:680px;margin:0}
+.eyebrow.d{color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+.stat{background:var(--bg);border-radius:16px;padding:22px}
+.stat b{display:block;font-size:34px;font-weight:800;color:var(--navy);letter-spacing:-.8px}
+.stat span{font-size:14.5px;color:var(--ink2);font-weight:500}
+.alt{background:var(--bg)}
+.step{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:48px}
+.step:nth-child(even) .pic{order:-1}
+.num{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;display:grid;place-items:center;font-size:16px}
+.step h3{font-size:23px;letter-spacing:-.4px;margin:12px 0 8px}
+.step p{margin:0;color:var(--ink2);font-size:16px}
+.pic{background:#fff;border-radius:20px;padding:18px;box-shadow:0 2px 6px rgba(11,42,68,.06),0 14px 34px rgba(11,42,68,.08)}
+.who{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
+.card{background:#fff;border:1px solid #e3ebf3;border-radius:16px;padding:22px}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:0;font-size:14.5px;color:var(--ink2)}
+.price{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.5px;margin:10px 0 4px}
+.price small{font-size:14px;font-weight:600;color:var(--mut)}
+.band{background:var(--navy);color:#fff;text-align:center;padding:64px 0}
+.band h2{margin:0 0 10px}.band p{color:#cfe3f3;margin:0 0 24px;font-size:17px}
+footer{padding:30px 0;font-size:13.5px;color:var(--mut)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (max-width:820px){
+  nav a:not(.btn){display:none}
+  .hero{padding-top:48px}.hero .wrap,.step{grid-template-columns:1fr}
+  .step:nth-child(even) .pic{order:0}
+  .stats{grid-template-columns:1fr}.who{grid-template-columns:1fr 1fr}
+  section{padding:52px 0}
+}
+@media (max-width:480px){.who{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="#top"><i></i>Dyslective</a>
+  <nav><a href="#how">How it works</a><a href="#who">Who it's for</a><a href="#pricing">Pricing</a><a class="btn" href="demo.html">Try the demo</a></nav>
+</div></header>
+
+<div class="hero" id="top"><div class="wrap">
+  <div>
+    <div class="eyebrow">Reading support · Grades 6–12</div>
+    <h1>Find the students who never asked for help.</h1>
+    <p>Every student takes a 10–15 minute reading risk check. The ones who are flagged get ten private minutes of practice a day, and their teacher and parent see the same progress.</p>
+    <div class="cta"><a class="btn light" href="demo.html">Try the demo</a><a class="btn" style="background:rgba(255,255,255,.14)" href="#how">See how it works</a></div>
+    <div class="note">Dyslective is a screening and practice tool. It does not diagnose dyslexia.</div>
+  </div>
+  <img src="img/app.png" alt="Three Dyslective phone screens: today's practice, a reading check question, and weekly progress" width="1200" height="900">
+</div></div>
+
+<section><div class="wrap">
+  <div class="eyebrow d">The gap</div>
+  <h2>Texas screens for dyslexia in kindergarten and first grade. Then it stops.</h2>
+  <p class="lead">A student who slips past those two years can reach middle school reading below level with nobody having checked why. By then most of them have learned to hide it.</p>
+  <div class="stats">
+    <div class="stat"><b>10–15 min</b><span>for one risk check, in one class period</span></div>
+    <div class="stat"><b>4 skills</b><span>decoding, spelling patterns, phonemic awareness, reading fluency</span></div>
+    <div class="stat"><b>10 min a day</b><span>of practice for 8 weeks, on the student's own phone</span></div>
+  </div>
+</div></section>
+
+<section class="alt" id="how"><div class="wrap">
+  <div class="eyebrow d">How it works</div>
+  <h2>Screen everyone. Practice privately. Share the results.</h2>
+  <div class="step">
+    <div><div class="num">1</div><h3>The whole grade takes the risk check</h3><p>Because everyone takes it, no student is singled out. Students never see a score or the word "dyslexia." The teacher gets a skill profile for each flagged student and a recommended next step.</p></div>
+    <div class="pic"><img src="img/check.png" alt="Teacher view of Maya R.'s risk check result, flagged in 2 of 4 skills" loading="lazy"></div>
+  </div>
+  <div class="step">
+    <div><div class="num">2</div><h3>Flagged students practice ten minutes a day</h3><p>The app looks like any study app. Practice targets the two weakest skills, and the reading tools (read aloud, extra spacing, line focus) work on texts from any class.</p></div>
+    <div class="pic"><img src="img/student.png" alt="Student app: open it, practice, level up" loading="lazy"></div>
+  </div>
+  <div class="step">
+    <div><div class="num">3</div><h3>Teacher and parent watch the same dashboard</h3><p>Both see minutes practiced and how each skill is moving. At week 8 the school gets a progress report. If scores haven't moved, the family is matched with certified dyslexia tutors and can use the report to request a free school evaluation.</p></div>
+    <div class="pic"><img src="img/dash.png" alt="Shared dashboard for Maya R., week 6 of 8, improving" loading="lazy"></div>
+  </div>
+</div></section>
+
+<section id="who"><div class="wrap">
+  <div class="eyebrow d">Who it's for</div>
+  <h2>One record, four people who need it</h2>
+  <div class="who" id="pricing">
+    <div class="card"><h3>Schools</h3><div class="price">$8 <small>per student</small></div><p>Risk check for every student in grades 6–12, with teacher dashboards and reports.</p></div>
+    <div class="card"><h3>Practice seats</h3><div class="price">$30 <small>per student, per year</small></div><p>Daily practice for flagged students, bought by the school only for those who need it.</p></div>
+    <div class="card"><h3>Families</h3><div class="price">$9.99 <small>a month</small></div><p>The parent dashboard, progress reports and the evaluation request letter.</p></div>
+    <div class="card"><h3>Specialists</h3><div class="price">$29.95 <small>a month</small></div><p>A listing for certified dyslexia tutors and therapists. Paying never changes who a family is shown.</p></div>
+  </div>
+</div></section>
+
+<div class="band"><div class="wrap">
+  <h2>See it the way a teacher, a student and a parent would</h2>
+  <p>The demo walks through one student's eight weeks in about two minutes.</p>
+  <a class="btn light" href="demo.html">Try the demo</a>
+</div></div>
+
+<footer><div class="wrap">
+  <span>© 2026 Dyslective · Founded by Ayush Jadhav and Ayush Chopra</span>
+  <span>The demo uses sample students and sample data.</span>
+</div></footer>
+</body>
+</html>
